@@ -1,14 +1,21 @@
 package basic;
 
 import java.util.Arrays;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 
 /**
  * Multithreading - класс для проверки работы с потоками и синхронизацией /
  * блокировками
  */
 public class Multithreading {
-    public static void main(String[] args) {
-        
+    public static void main(String[] args) throws InterruptedException, ExecutionException {
+        Callable task = new CallableClass();
+        FutureTask<Integer> future = new FutureTask<>(task);
+        Thread thread = new Thread(future);
+        thread.start();
+        System.out.println(future.get());
     }
 
     private static void runParallelAction() {
@@ -53,6 +60,15 @@ public class Multithreading {
         Calculator calc2 = new Calculator("calc2");
         Thread calcThread2 = new Thread(calc2);
         calcThread2.start();
+    }
+}
+
+class CallableClass implements Callable<Integer> {
+    private static Integer number = 0;
+    @Override
+    public Integer call() throws Exception {
+        Thread.sleep(500);
+        return ++number;
     }
 }
 
