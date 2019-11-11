@@ -10,9 +10,10 @@ public class Exceptions {
     public static void main(String[] args) {
         try (MyResource res = new MyResource()) {
             res.justDo();
-            System.out.println("do something with resource");
         } catch (Exception err) {
-            System.out.println("error");
+            System.out.println(err);
+        } finally {
+            System.out.println("finally-block");
         }
     }
 
@@ -21,13 +22,15 @@ public class Exceptions {
         public MyResource() {
         }
         
-        public void justDo() throws Exception {
+        public void justDo() {
             System.out.println("just do");
-            throw new Exception();
+            System.out.println("do something with resource");
+            throw new RuntimeException("main");
         }
         @Override
         public void close() {
             System.out.println("close");
+            throw new RuntimeException("resource");
         }
     }
 
