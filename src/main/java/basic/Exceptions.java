@@ -1,10 +1,37 @@
 package basic;
 
+import java.io.Closeable;
+import java.io.IOException;
+
 /**
  * Exceptions
  */
 public class Exceptions {
     public static void main(String[] args) {
+        try (MyResource res = new MyResource()) {
+            res.justDo();
+            System.out.println("do something with resource");
+        } catch (Exception err) {
+            System.out.println("error");
+        }
+    }
+
+    public static class MyResource implements Closeable {
+
+        public MyResource() {
+        }
+        
+        public void justDo() throws Exception {
+            System.out.println("just do");
+            throw new Exception();
+        }
+        @Override
+        public void close() {
+            System.out.println("close");
+        }
+    }
+
+    private static void doSomething() {
         try {
             // throw new NullPointerException();
             throw new Exception();
