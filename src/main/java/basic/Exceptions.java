@@ -7,6 +7,14 @@ import java.io.Closeable;
  */
 public class Exceptions {
     public static void main(String[] args) {
+        try {
+            throw new MyError();
+        } catch (Throwable e) {
+            System.out.println("Error is catched!");
+        }
+    }
+
+    private static void calculate() {
         Integer numb = getNumber();
         System.out.println(numb);
     }
@@ -20,10 +28,10 @@ public class Exceptions {
         } catch (NullPointerException e) {
             System.out.println(e);
             return 44;
-        // } catch (Exception e) {
-        //     System.out.println(e);
-        //     return 45;
-        }finally{
+            // } catch (Exception e) {
+            //     System.out.println(e);
+            //     return 45;
+        } finally {
             System.out.println("finally");
             return 43;
         }
@@ -81,6 +89,8 @@ public class Exceptions {
         System.out.println("main finish");
     }
 }
+
+class MyError extends Error {}
 
 class MyExp extends RuntimeException {
     public MyExp(){
