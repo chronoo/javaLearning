@@ -5,7 +5,30 @@ package basic;
  */
 public class Stepik {
     public static void main(String[] args) {
-        System.out.println(charExpression(29));
+        for (int i = -4; i < 100; i++) {
+            System.out.println(i + ":" + isPowerOfTwo(i));
+        }
+    }
+
+      // пункт 2.3, 10 шаг
+      public static boolean isPowerOfTwo(int value) {
+        return java.lang.Integer.bitCount(Math.abs(value)) == 1;
+    }
+
+     // пункт 2.3, 9 шаг
+     public static void typeTransfer() {
+        // int a = 4;
+        // String b = "a";
+        // a = b;          // String->int
+        // boolean c = a;  // int->boolean
+        // long d = 1;   
+        // float e = d;    // long->float +
+        // d = a;          // int->long +
+        // d = e;          // float->long
+        // byte f = 4;
+        // char g = f;     // byte->char
+        // a = g;          // chat->int +
+        // Character h = g;// char->Character +
     }
 
     // пункт 2.2, 3 шаг
