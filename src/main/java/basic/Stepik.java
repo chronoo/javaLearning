@@ -9,7 +9,30 @@ import java.util.regex.Pattern;
  */
 public class Stepik {
     public static void main(String[] args) {
-        System.out.println(factorial(1));
+        System.out.println(mergeArrays(new int[] {1,2,3}, new int[]{3,4,5}));
+    }
+
+      // пункт 2.4, 9 шаг
+    public static int[] mergeArrays(int[] a1, int[] a2) {
+        int[] result = new int[a1.length + a2.length];
+        int next;
+
+        for (int i = 0, i1 = 0, i2 = 0; i < a1.length + a2.length; i++) {
+            if (i1 == a1.length)
+                next = a2[i2++];
+            else if(i2 == a2.length)
+                next = a1[i1++];
+            else {
+                if (a1[i1] <= a2[i2]) {
+                    next = a1[i1++];
+                } else {
+                    next = a2[i2++];
+                }
+            }
+
+            result[i] = next;
+        }
+        return result;
     }
 
      // пункт 2.4, 8 шаг
