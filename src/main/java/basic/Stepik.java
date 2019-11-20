@@ -1,19 +1,60 @@
 package basic;
 
 import java.math.BigInteger;
+import java.util.function.DoubleUnaryOperator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import basic.filter.*;
 
 /**
  * Boolean
  */
 public class Stepik {
     public static void main(final String[] args) {
-        testEqualsAndHash();
+        System.out.println(checkLabels(new TextAnalyzer[] { new SpamAnalyzer(new String[] { "s" }) }, "a q b"));
     }
 
-     // пункт 3.4, 9 шаг
-     public static void testEqualsAndHash() {
+     // пункт 3.5, 9 шаг
+    public static Label checkLabels(TextAnalyzer[] analyzers, String text) {
+        for (TextAnalyzer analyzer : analyzers) {
+            Label currentLabel = analyzer.processText(text);
+            if (currentLabel != Label.OK)
+                return currentLabel;
+        }
+         
+        return Label.OK;
+    }
+
+      // пункт 3.5, 8 шаг
+      private static void asciiCharSequenseTest() {
+        byte[] example = { 72, 101, 108, 108, 111, 33 };
+        AsciiCharSequence answer = new AsciiCharSequence(example);
+        System.out.println("Последовательность - " + answer.toString());//Hello!
+        System.out.println("Размер её - " + answer.length());//6
+        System.out.println("Символ под № 1 - " + answer.charAt(1));//e
+        System.out.println("Подпоследовательность - " + answer.subSequence(1, 5));//ello
+        //проверка на нарушение инкапсуляции private поля
+        System.out.println(answer.toString());//Hello!
+        example[0] = 74;
+        System.out.println(answer.toString());//Hello!
+    }
+
+    // пункт 3.5, 7 шаг
+    public static double integrate(DoubleUnaryOperator f, double a, double b) {
+        double result = 0;
+        int iterationCount = (int) 1e8;
+        double step = (b - a) / iterationCount;
+
+        for (int i = 0; i <= iterationCount; i++) {
+            result += f.applyAsDouble(a + i * step) * (step);
+        }
+        
+        return result;
+    }
+
+    // пункт 3.4, 9 шаг
+    public static void testEqualsAndHash() {
         ComplexNumber a = new ComplexNumber(1, 1);
         ComplexNumber b = new ComplexNumber(1, 1);
 
@@ -159,6 +200,7 @@ public class Stepik {
 class Parent {
     final int a = 0;
     static final int b = 1;
+
     protected Object method(Object value) {
         return new Object();
     }
