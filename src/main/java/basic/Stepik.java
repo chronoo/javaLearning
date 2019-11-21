@@ -1,17 +1,65 @@
 package basic;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
+import java.util.Optional;
 import java.util.function.DoubleUnaryOperator;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.XMLFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import basic.filter.*;
+import basic.filter.Label;
+import basic.filter.TextAnalyzer;
 
 /**
  * Boolean
  */
 public class Stepik {
-    public static void main(final String[] args) {
+    public static void main(final String[] args) throws IOException {
+        Pair<Integer, String> pair = Pair.of(null, null);
+        Integer i = pair.getFirst(); // 1
+        String s = pair.getSecond(); // "hello"
+        
+        Pair<Integer, String> pair2 = Pair.of(null, null);
+        boolean mustBeTrue = pair.equals(pair2); // true!
+        boolean mustAlsoBeTrue = pair.hashCode() == pair2.hashCode(); // true!    
+    }
+
+    // пункт 5.2, 8 шаг
+    public static int checkSumOfStream(InputStream inputStream) throws IOException {
+        int sum = 0;
+
+        while (true) {
+            int value = inputStream.read();
+            if (value == -1) {
+                break;
+            } else {
+                sum = Integer.rotateLeft(sum, 1) ^ value; 
+            }
+        }
+        return sum;
+    }
+
+     // пункт 4.3, 8 шаг
+     private static void configureLogging() {
+        Logger logger = Logger.getLogger("org.stepic.java.logging.ClassA");
+        logger.setLevel(Level.ALL);
+
+        logger = Logger.getLogger("org.stepic.java.logging.ClassB");
+        logger.setLevel(Level.WARNING);
+
+        Handler handler = new ConsoleHandler();
+        handler.setFormatter(new XMLFormatter());
+        handler.setLevel(Level.ALL);
+
+        logger = Logger.getLogger("org.stepic.java");
+        logger.setUseParentHandlers(false);
+        logger.addHandler(handler);
     }
 
     // пункт 4.1, 9 шаг
@@ -221,5 +269,16 @@ class Parent {
 class Children extends Parent {
     public BigInteger method(Object value) {
         return (BigInteger) super.method(value);
+    }
+}
+
+class Example<X> {
+    public void someMethod(Object obj) {
+        X b = (X) obj;
+        Optional<X> c = Optional.empty();
+        // boolean d = obj instanceof Optional<X>;
+        // X[] e = new X[0];
+        // boolean e = obj instanceof X;
+        // X f = new X();
     }
 }
